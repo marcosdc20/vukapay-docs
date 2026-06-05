@@ -13,12 +13,19 @@ export default function PurchaseModal({ isOpen, onClose, initialPlan }: Purchase
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [plan, setPlan] = useState<'annual' | 'lifetime'>('annual');
-  const [paymentMethod, setPaymentMethod] = useState<'bank_transfer' | 'express'>('bank_transfer');
+  const [paymentMethod, setPaymentMethod] = useState<'bank_transfer' | 'express' | 'paypay'>('bank_transfer');
   const [fileBase64, setFileBase64] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('');
   const [fileSize, setFileSize] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, fieldId: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(fieldId);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -30,6 +37,8 @@ export default function PurchaseModal({ isOpen, onClose, initialPlan }: Purchase
       setFileName('');
       setFileSize('');
       setErrorMessage(null);
+      setPaymentMethod('bank_transfer');
+      setCopiedField(null);
     }
   }, [isOpen, initialPlan]);
 
@@ -216,61 +225,186 @@ export default function PurchaseModal({ isOpen, onClose, initialPlan }: Purchase
 
           {step === 2 && (
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Coordenadas Bancárias */}
-              <div className="p-4 bg-[#0E1322] border border-white/5 rounded-xl space-y-3">
-                <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Transferência Bancária / Depósito</span>
-                  <span className="text-xs font-black text-emerald-400">{planPrices[plan].price.toLocaleString('pt-AO')} AOA</span>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Banco:</span>
-                    <span className="text-white font-bold">Banco BIC</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Beneficiário:</span>
-                    <span className="text-white font-bold">Marcos Narciso</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">N.º de Conta:</span>
-                    <span className="text-white font-mono font-bold">123456789</span>
-                  </div>
-                  <div className="flex flex-col gap-1 pt-1.5">
-                    <span className="text-gray-500">IBAN:</span>
-                    <span className="text-white font-mono font-bold bg-white/5 px-2 py-1 rounded text-center select-all border border-white/5">
-                      AO06.0040.0000.7719.8284.1012.3
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Método de Pagamento e Upload */}
+              {/* Método de Pagamento */}
               <div>
                 <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Método Utilizado</label>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('bank_transfer')}
-                    className={`py-2 px-3 rounded-lg border text-xs font-bold transition-all ${
+                    className={`py-2.5 px-2 rounded-xl border text-xs font-bold transition-all flex flex-col items-center gap-1.5 ${
                       paymentMethod === 'bank_transfer'
                         ? 'border-emerald-500/50 bg-emerald-500/5 text-white'
                         : 'border-white/5 bg-white/5 text-gray-400 hover:text-white'
                     }`}
                   >
-                    Transferência Bancária / ATM
+                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span className="text-[10px]">Banco Atlântico</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('express')}
-                    className={`py-2 px-3 rounded-lg border text-xs font-bold transition-all ${
+                    className={`py-2.5 px-2 rounded-xl border text-xs font-bold transition-all flex flex-col items-center gap-1.5 ${
                       paymentMethod === 'express'
                         ? 'border-emerald-500/50 bg-emerald-500/5 text-white'
                         : 'border-white/5 bg-white/5 text-gray-400 hover:text-white'
                     }`}
                   >
-                    Multicaixa Express
+                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    <span className="text-[10px]">MCX Express</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('paypay')}
+                    className={`py-2.5 px-2 rounded-xl border text-xs font-bold transition-all flex flex-col items-center gap-1.5 ${
+                      paymentMethod === 'paypay'
+                        ? 'border-emerald-500/50 bg-emerald-500/5 text-white'
+                        : 'border-white/5 bg-white/5 text-gray-400 hover:text-white'
+                    }`}
+                  >
+                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-[10px]">PAYPAY</span>
                   </button>
                 </div>
+              </div>
+
+              {/* Coordenadas Bancárias / Métodos */}
+              <div className="p-4 bg-[#0E1322] border border-white/5 rounded-xl space-y-3">
+                <div className="flex justify-between items-center pb-2 border-b border-white/5">
+                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Dados de Pagamento</span>
+                  <span className="text-xs font-black text-emerald-400">{planPrices[plan].price.toLocaleString('pt-AO')} AOA</span>
+                </div>
+
+                {paymentMethod === 'bank_transfer' && (
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Banco:</span>
+                      <span className="text-white font-bold">Banco ATLANTICO</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Beneficiário:</span>
+                      <span className="text-white font-bold text-right text-[11px]">DOMINGOS MARCOS NARCISO CORREIA</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">N.º de Conta:</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-white font-mono font-bold">33200874210001</span>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard('33200874210001', 'conta')}
+                          className="text-gray-400 hover:text-emerald-400 p-1 rounded hover:bg-white/5 transition-colors"
+                        >
+                          {copiedField === 'conta' ? (
+                            <span className="text-[10px] text-emerald-400 font-bold">Copiado!</span>
+                          ) : (
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1 pt-1.5 border-t border-white/5">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-500">IBAN:</span>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard('AO06005500003200874210154', 'iban')}
+                          className="text-emerald-400 hover:text-emerald-300 font-bold text-[10px] flex items-center gap-0.5"
+                        >
+                          {copiedField === 'iban' ? 'Copiado!' : 'Copiar IBAN'}
+                        </button>
+                      </div>
+                      <span className="text-white font-mono font-bold bg-white/5 px-2 py-1.5 rounded text-center select-all border border-white/5 text-[11px] tracking-wider">
+                        AO06005500003200874210154
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === 'express' && (
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Canal:</span>
+                      <span className="text-white font-bold">Multicaixa Express</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Número Express:</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-white font-mono font-bold text-sm">949 210 026</span>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard('949210026', 'express')}
+                          className="text-gray-400 hover:text-emerald-400 p-1 rounded hover:bg-white/5 transition-colors"
+                        >
+                          {copiedField === 'express' ? (
+                            <span className="text-[10px] text-emerald-400 font-bold">Copiado!</span>
+                          ) : (
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-gray-500 mt-1 leading-normal">
+                      Efetue o pagamento por transferência via Multicaixa Express para o número acima.
+                    </p>
+                  </div>
+                )}
+
+                {paymentMethod === 'paypay' && (
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Canal:</span>
+                      <span className="text-white font-bold">PAYPAY</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Entidade:</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-white font-mono font-bold">10116</span>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard('10116', 'paypay_ent')}
+                          className="text-gray-400 hover:text-emerald-400 p-1 rounded hover:bg-white/5 transition-colors"
+                        >
+                          {copiedField === 'paypay_ent' ? (
+                            <span className="text-[10px] text-emerald-400 font-bold">Copiado!</span>
+                          ) : (
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500">Referência:</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-white font-mono font-bold">949210026</span>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard('949210026', 'paypay_ref')}
+                          className="text-gray-400 hover:text-emerald-400 p-1 rounded hover:bg-white/5 transition-colors"
+                        >
+                          {copiedField === 'paypay_ref' ? (
+                            <span className="text-[10px] text-emerald-400 font-bold">Copiado!</span>
+                          ) : (
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Upload do Comprovativo */}
@@ -358,6 +492,43 @@ export default function PurchaseModal({ isOpen, onClose, initialPlan }: Purchase
                   Recebemos o seu comprovativo. O administrador irá analisá-lo e enviar a sua chave de ativação para o e-mail <strong className="text-white">{email}</strong> em breve.
                 </p>
               </div>
+
+              {/* Informações adicionais de envio rápido */}
+              <div className="max-w-sm mx-auto bg-white/5 border border-white/5 rounded-2xl p-4 space-y-3.5 text-left text-xs">
+                <p className="text-gray-300 font-semibold text-center border-b border-white/5 pb-2">Precisa de Ativação Instantânea?</p>
+                
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 block">Envie também pelo WhatsApp</span>
+                    <a
+                      href={`https://wa.me/244949210026?text=Olá! Acabei de efetuar o pagamento da minha licença VukaPay (${plan === 'annual' ? 'Anual' : 'Vitalícia'}) e enviei o comprovativo pelo site para o email: ${encodeURIComponent(email)}.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 font-bold hover:underline"
+                    >
+                      949 210 026
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-gray-500 block">E-mail de Suporte</span>
+                    <span className="text-white font-mono font-medium">suporte.vukapay@gmail.com</span>
+                  </div>
+                </div>
+              </div>
+
               <button
                 type="button"
                 onClick={onClose}
