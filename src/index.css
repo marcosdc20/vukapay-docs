@@ -4,36 +4,58 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', sans-serif;
   
-  --color-light-bg: #f8fafc;
   --color-brand: #10b981;
   --color-brand-hover: #059669;
   --color-brand-glow: rgba(16, 185, 129, 0.1);
 }
 
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #334155;
+  --border-color: rgba(15, 23, 42, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-brand-bg: rgba(240, 253, 244, 0.85);
+  --glass-brand-border: rgba(16, 185, 129, 0.2);
+  --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.015);
+}
+
+html.dark {
+  --bg-color: #060913;
+  --text-color: #cbd5e1;
+  --border-color: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(10, 18, 30, 0.45);
+  --glass-brand-bg: rgba(10, 18, 30, 0.65);
+  --glass-brand-border: rgba(21, 101, 73, 0.25);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
 html, body {
   font-family: var(--font-sans);
-  background-color: var(--color-light-bg);
-  color: #1e293b;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   scroll-behavior: smooth;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
 }
 
-/* Light Glassmorphism utility */
+/* Glassmorphism utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .glass-brand {
-  background: rgba(240, 253, 244, 0.8);
+  background: var(--glass-brand-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.04);
+  border: 1px solid var(--glass-brand-border);
+  box-shadow: var(--card-shadow);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
