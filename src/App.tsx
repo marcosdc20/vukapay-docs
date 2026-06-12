@@ -103,8 +103,8 @@ export default function App() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
-            <img src="/logo_vukapay_minimal.png" alt="VukaPay logo" className="h-9 w-9 rounded-xl shadow-sm" />
+          <a href="#" className="flex items-center gap-3 focus:outline-none">
+            <img src={`${import.meta.env.BASE_URL}logo_vukapay_minimal.png`} alt="VukaPay logo" className="h-9 w-9 rounded-xl shadow-sm" />
             <span className="font-display text-2xl font-black tracking-tight text-slate-900">
               Vuka<span className="text-emerald-600">Pay</span>
             </span>
@@ -130,7 +130,7 @@ export default function App() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Pesquisar..." 
-                  className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs mr-2 focus:outline-none focus:border-emerald-500 w-40 animate-in slide-in-from-right-4 duration-200"
+                  className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs mr-2 focus:outline-none focus:border-emerald-500 focus:ring-0 w-40 animate-in slide-in-from-right-4 duration-200"
                 />
               )}
               <button 
@@ -146,7 +146,7 @@ export default function App() {
             {/* Login button */}
             <button 
               onClick={() => openDownload('windows')}
-              className="text-sm font-bold text-slate-700 hover:text-emerald-600 transition-colors cursor-pointer border-none bg-transparent"
+              className="text-sm font-bold text-slate-700 hover:text-emerald-600 transition-colors cursor-pointer border-none bg-transparent focus:outline-none focus:ring-0"
             >
               Entrar
             </button>
@@ -154,7 +154,7 @@ export default function App() {
             {/* CTA Button */}
             <button 
               onClick={() => setIsPurchaseModalOpen(true)}
-              className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer border-none"
+              className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer border-none focus:outline-none focus:ring-0"
             >
               Registe-se
             </button>
@@ -228,7 +228,7 @@ export default function App() {
             <div className="pt-4 flex flex-col sm:flex-row gap-4 items-start">
               <button 
                 onClick={() => setIsPurchaseModalOpen(true)}
-                className="w-full sm:w-auto px-8 py-4 bg-white text-emerald-800 font-bold rounded-2xl hover:bg-emerald-50 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer border-none"
+                className="w-full sm:w-auto px-8 py-4 bg-white text-emerald-800 font-bold rounded-2xl hover:bg-emerald-50 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer border-none focus:outline-none focus:ring-0"
               >
                 Registe-se grátis
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,7 +243,7 @@ export default function App() {
                 <button
                   key={idx}
                   onClick={() => setActiveScreenshot(idx)}
-                  className={`h-2.5 rounded-full transition-all cursor-pointer border-none ${
+                  className={`h-2.5 rounded-full transition-all cursor-pointer border-none focus:outline-none focus:ring-0 ${
                     idx === activeScreenshot ? 'w-8 bg-white' : 'w-2.5 bg-white/40'
                   }`}
                 />
@@ -269,7 +269,7 @@ export default function App() {
                     }`}
                   >
                     <img 
-                      src={`/${screen.path}`} 
+                      src={`${import.meta.env.BASE_URL}${screen.path}`} 
                       alt={screen.title}
                       className="w-full h-full object-cover object-top"
                     />
@@ -306,35 +306,35 @@ export default function App() {
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 shrink-0">
               <button 
                 onClick={() => openDownload('windows')}
-                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left"
+                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left focus:outline-none focus:ring-0"
               >
-                <img src="/windows.png" alt="Windows icon" className="w-5 h-5 object-contain" />
+                <img src={`${import.meta.env.BASE_URL}windows.png`} alt="Windows icon" className="w-5 h-5 object-contain" />
                 Windows
               </button>
               <button 
                 onClick={() => openDownload('linux')}
-                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left"
+                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left focus:outline-none focus:ring-0"
               >
-                <img src="/Linux.png" alt="Linux icon" className="w-5 h-5 object-contain" />
+                <img src={`${import.meta.env.BASE_URL}Linux.png`} alt="Linux icon" className="w-5 h-5 object-contain" />
                 Linux
               </button>
               <button 
                 onClick={() => openDownload('mac')}
-                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left"
+                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left focus:outline-none focus:ring-0"
               >
-                <img src="/mac.png" alt="macOS icon" className="w-5 h-5 object-contain" />
+                <img src={`${import.meta.env.BASE_URL}mac.png`} alt="macOS icon" className="w-5 h-5 object-contain" />
                 macOS
               </button>
               <button 
                 onClick={() => openDownload('android')}
-                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left"
+                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left focus:outline-none focus:ring-0"
               >
-                <img src="/Android.png" alt="Android icon" className="w-5 h-5 object-contain" />
+                <img src={`${import.meta.env.BASE_URL}Android.png`} alt="Android icon" className="w-5 h-5 object-contain" />
                 Android
               </button>
               <button 
                 onClick={() => alert('A nossa versão nativa para iPhone está em desenvolvimento interno. Descarregue para Android ou Desktop para começar!')}
-                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left col-span-2 sm:col-span-1"
+                className="flex items-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200/60 hover:border-emerald-500/30 rounded-xl transition-all text-xs font-bold text-slate-700 cursor-pointer text-left col-span-2 sm:col-span-1 focus:outline-none focus:ring-0"
               >
                 {/* Smartphone outline */}
                 <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -506,7 +506,7 @@ export default function App() {
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <button 
                 onClick={() => setIsVideoModalOpen(true)}
-                className="w-20 h-20 bg-white hover:bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer border-none"
+                className="w-20 h-20 bg-white hover:bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer border-none focus:outline-none focus:ring-0"
               >
                 <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
@@ -651,7 +651,7 @@ export default function App() {
                 {/* Image mockup */}
                 <div className="bg-slate-900 aspect-video flex items-center justify-center p-6 text-white text-center relative">
                   <span className="font-display font-extrabold text-sm tracking-tight leading-relaxed max-w-xs text-emerald-400">
-                    VukaPay v1.1.2 — Novo Lançamento de Produtividade 🚀
+                    VukaPay v1.1.3 — Novo Lançamento de Produtividade 🚀
                   </span>
                 </div>
                 <div className="p-4 space-y-2">
@@ -752,17 +752,17 @@ export default function App() {
             
             {/* Local partners using bank logos from public directory */}
             <div className="flex items-center gap-2">
-              <img src="/logo_atlantico.png" alt="Banco Atlântico" className="h-6 object-contain rounded" />
+              <img src={`${import.meta.env.BASE_URL}logo_atlantico.png`} alt="Banco Atlântico" className="h-6 object-contain rounded" />
               <span className="text-xs font-bold text-slate-700">ATLANTICO</span>
             </div>
             
             <div className="flex items-center gap-2">
-              <img src="/logo_express.png" alt="Express" className="h-6 object-contain rounded" />
+              <img src={`${import.meta.env.BASE_URL}logo_express.png`} alt="Express" className="h-6 object-contain rounded" />
               <span className="text-xs font-bold text-slate-700">Express</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <img src="/logo_paypay.jpg" alt="PAYPAY" className="h-6 object-contain rounded" />
+              <img src={`${import.meta.env.BASE_URL}logo_paypay.jpg`} alt="PAYPAY" className="h-6 object-contain rounded" />
               <span className="text-xs font-bold text-slate-700">PAYPAY</span>
             </div>
           </div>
@@ -811,7 +811,7 @@ export default function App() {
               <div className="mt-8">
                 <button 
                   onClick={() => openPurchase('monthly')}
-                  className="block w-full py-3 bg-slate-50 hover:bg-slate-100 text-slate-700 text-center text-xs font-bold rounded-xl border border-slate-200 transition-all cursor-pointer"
+                  className="block w-full py-3 bg-slate-50 hover:bg-slate-100 text-slate-700 text-center text-xs font-bold rounded-xl border border-slate-200 transition-all cursor-pointer focus:outline-none"
                 >
                   Adquirir Licença Mensal
                 </button>
@@ -853,7 +853,7 @@ export default function App() {
               <div className="mt-8">
                 <button 
                   onClick={() => openPurchase('annual')}
-                  className="block w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-center text-xs font-bold rounded-xl shadow-md transition-all active:scale-95 border-none cursor-pointer"
+                  className="block w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-center text-xs font-bold rounded-xl shadow-md transition-all active:scale-95 border-none cursor-pointer focus:outline-none"
                 >
                   Adquirir Licença Anual
                 </button>
@@ -887,7 +887,7 @@ export default function App() {
               <div className="mt-8">
                 <button 
                   onClick={() => openPurchase('lifetime')}
-                  className="block w-full py-3 bg-slate-50 hover:bg-slate-100 text-slate-700 text-center text-xs font-bold rounded-xl border border-slate-200 transition-all cursor-pointer"
+                  className="block w-full py-3 bg-slate-50 hover:bg-slate-100 text-slate-700 text-center text-xs font-bold rounded-xl border border-slate-200 transition-all cursor-pointer focus:outline-none"
                 >
                   Comprar Licença Vitalícia
                 </button>
@@ -1027,7 +1027,7 @@ export default function App() {
             <div className="flex flex-wrap gap-3 pt-2">
               <button 
                 onClick={() => setIsPurchaseModalOpen(true)}
-                className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all border-none cursor-pointer text-xs"
+                className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all border-none cursor-pointer text-xs focus:outline-none"
               >
                 Registe-se grátis
               </button>
@@ -1111,7 +1111,7 @@ export default function App() {
 
               <button 
                 type="submit" 
-                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md active:scale-98 flex items-center justify-center gap-1 cursor-pointer border-none"
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md active:scale-98 flex items-center justify-center gap-1 cursor-pointer border-none focus:outline-none"
               >
                 {/* Send Icon */}
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1132,7 +1132,7 @@ export default function App() {
           {/* Logo & Desc */}
           <div className="space-y-4 md:col-span-2">
             <a href="#" className="flex items-center gap-3">
-              <img src="/logo_vukapay_minimal.png" alt="VukaPay logo" className="h-8 w-8 rounded-lg" />
+              <img src={`${import.meta.env.BASE_URL}logo_vukapay_minimal.png`} alt="VukaPay logo" className="h-8 w-8 rounded-lg" />
               <span className="font-display text-xl font-bold tracking-tight text-white">VukaPay</span>
             </a>
             <p className="text-xs text-slate-400 max-w-sm leading-relaxed font-medium">
@@ -1242,7 +1242,7 @@ export default function App() {
             {/* Bottom info */}
             <div className="p-4 bg-slate-900 flex justify-between items-center text-xs text-slate-400 border-t border-slate-800/80">
               <span className="font-bold text-white">VukaPay Walkthrough Técnico & Funcionalidades</span>
-              <span>Versão Atual: v1.1.2</span>
+              <span>Versão Atual: v1.1.3</span>
             </div>
           </div>
         </div>

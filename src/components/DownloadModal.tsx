@@ -4,7 +4,7 @@ interface DownloadModalProps {
   defaultPlatform?: string;
 }
 
-const APP_VERSION = '1.1.2';
+const APP_VERSION = '1.1.3';
 const GITHUB_RELEASE_BASE = `https://github.com/marcosdc20/sistema-de-controle-financeiro-pessoal-financer/releases/download/v${APP_VERSION}`;
 
 interface PlatformOption {
